@@ -10,7 +10,7 @@ function create_database(){
     
     // Пересоздание БАЗЫ ДАННЫХ (удаление, а затем создание)
     try{
-        //$dbc->exec('drop database if exists larsCustoms');
+        $dbc->exec('drop database if exists larsCustoms');
         $dbc->exec('create database larsCustoms');
         $dbc->exec('use larsCustoms');
     }catch(PDOException $err){
@@ -19,17 +19,17 @@ function create_database(){
 
     // ======== Создание таблицы users - список пассажиров
     try{
-        $query_str = 'create table if not exists queuestamp (queueNum int unsigned 
+        $query_str = 'create table if not exists customtraffic (queueNum int unsigned 
                         , state varchar(10) NOT NULL
                         , number varchar(45) NOT NULL
                         , model varchar(16) NOT NULL
                         , datereg varchar(45) NOT NULL
-                        , arrivalTime time NOT NULL
+                        , departCountdown time NOT NULL
                         , actualtimestamp varchar(45))';
         $dbc->exec($query_str);
         echo 'Таблица очереди на КПП создана!<br>';
     }catch(PDOException $err){
-        echo "queuestamp".$err->getMessage();
+        echo "customtraffic".$err->getMessage();
     }
 }
 ?>
