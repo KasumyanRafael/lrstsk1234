@@ -20,6 +20,7 @@ $currentDate=$dateTime->format('d.m.Y H:i'); // вывод в формате д�
 $rows = $tables->item(0)->getElementsByTagName('tr');
 
 /** цикл по строкам **/
+
 foreach ($rows as $row)
 {
     /** все ячейки по тэгу **/
@@ -32,19 +33,26 @@ foreach ($rows as $row)
     $datereg=$cols->item(4)->nodeValue;
     $departCountdown=$cols->item(5)->nodeValue;
     $sql="INSERT into customtraffic(queueNum,state,number,model,datereg,departCountdown,actualtimestamp) values($queue,'$state','$number','$model','$datereg','$departCountdown','$currentDate')"; 
-    $checkquery = "select count(*) from customtraffic where state=$state and number=$number and model=$model and datereg=$datereg"; 
     
-    // if(TRUE){
-    //     try{
-    //         $dbc->exec($sql);
-    //     }
-    //     catch(PDOException $err){
-    //          echo 'insert customtraffic ' . $err->getMessage();
-    //          break;
-    //     }
-    // }
-    
+    $stmt = $dbc->prepare("SELECT COUNT(*) FROM customtraffic where queueNum=$queue and number='$number' and datereg ='$datereg' "); //executeScalar
+    $stmt->execute();
+    $row = $stmt->fetch();
+    $count = $row[0];
+
+    if($count==0){
+        try{
+             $dbc->exec($sql);
+        }
+        catch(PDOException $err){
+             echo 'insert customtraffic ' . $err->getMessage();
+             break;
+        }
+    }
 }
+
+
+
+
 
 
 
