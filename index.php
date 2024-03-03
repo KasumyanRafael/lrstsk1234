@@ -13,8 +13,9 @@ $dom->preserveWhiteSpace = false;
 /** элемент по тэгу **/
 $tables = $dom->getElementsByTagName('table');
 $dateTime = new DateTime();
-$currentDate=$dateTime->format('d.m.Y H:i'); // вывод в формате дд:мм:гг чч:мм, например 27:06:2021 10:30
-
+//$currentDate=$dateTime->format('d.m.Y H:i');
+$currentDate=$dateTime->format('Y-m-d H:i'); // вывод в формате гг-мм-дд чч:мм
+echo $currentDate;
 
 /** получаем все строки таблицы **/
 $rows = $tables->item(0)->getElementsByTagName('tr');
@@ -30,11 +31,12 @@ foreach ($rows as $row)
     $state=$cols->item(1)->nodeValue;
     $number=$cols->item(2)->nodeValue;
     $model=$cols->item(3)->nodeValue;
-    $datereg=$cols->item(4)->nodeValue;
+    $datereg=explode(" ",$cols->item(4)->nodeValue);
+    $timereg=$datereg[1];
+    $datereg=$datereg[0];
     $departCountdown=$cols->item(5)->nodeValue;
-    $sql="INSERT into customtraffic(queueNum,state,number,model,datereg,departCountdown,actualtimestamp) values($queue,'$state','$number','$model','$datereg','$departCountdown','$currentDate')"; 
-    
-    $stmt = $dbc->prepare("SELECT COUNT(*) FROM customtraffic where queueNum=$queue and number='$number' and datereg ='$datereg' "); //executeScalar
+    $sql="INSERT into customtraffic(queueNum,state,number,model,datereg,timereg,departCountdown,actualtimestamp) values($queue,'$state','$number','$model','$datereg','$timereg','$departCountdown','$currentDate')"; 
+    $stmt = $dbc->prepare("SELECT COUNT(*) FROM customtraffic where queueNum=$queue and number='$number' and datereg ='$datereg' and timereg='$timereg' "); //executeScalar
     $stmt->execute();
     $row = $stmt->fetch();
     $count = $row[0];

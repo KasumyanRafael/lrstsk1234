@@ -24,9 +24,10 @@ function create_database(){
                         , number varchar(45) NOT NULL
                         , model varchar(16) NOT NULL
                         , datereg varchar(45) NOT NULL
+                        , timereg varchar(45) NOT NULL
                         , departCountdown time NOT NULL
-                        , actualtimestamp varchar(45)
-                        , key(number),key(datereg))';
+                        , actualtimestamp timestamp
+                        , key(number),key(datereg),key(timereg))';
         $dbc->exec($query_str);
         echo 'Таблица очереди на КПП создана!<br>';
     }catch(PDOException $err){
