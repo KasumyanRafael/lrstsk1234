@@ -10,7 +10,7 @@ function create_database(){
     
     // Пересоздание БАЗЫ ДАННЫХ (удаление, а затем создание)
     try{
-        //$dbc->exec('drop database if exists larsCustoms');
+        $dbc->exec('drop database if exists larsCustoms');
         $dbc->exec('create database larsCustoms');
         $dbc->exec('use larsCustoms');
     }catch(PDOException $err){
@@ -23,8 +23,8 @@ function create_database(){
                         , state varchar(10) NOT NULL
                         , number varchar(45) NOT NULL
                         , model varchar(16) NOT NULL
-                        , datereg varchar(45) NOT NULL
-                        , timereg varchar(45) NOT NULL
+                        , datereg date NOT NULL
+                        , timereg time NOT NULL
                         , departCountdown time NOT NULL
                         , actualtimestamp timestamp
                         , key(number),key(datereg),key(timereg))';

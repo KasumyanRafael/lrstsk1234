@@ -33,7 +33,8 @@ foreach ($rows as $row)
     $model=$cols->item(3)->nodeValue;
     $datereg=explode(" ",$cols->item(4)->nodeValue);
     $timereg=$datereg[1];
-    $datereg=$datereg[0];
+    $datereg=explode(".",$datereg[0]);
+    $datereg="20".$datereg[2]."-".$datereg[1]."-".$datereg[0];
     $departCountdown=$cols->item(5)->nodeValue;
     $sql="INSERT into customtraffic(queueNum,state,number,model,datereg,timereg,departCountdown,actualtimestamp) values($queue,'$state','$number','$model','$datereg','$timereg','$departCountdown','$currentDate')"; 
     $stmt = $dbc->prepare("SELECT COUNT(*) FROM customtraffic where queueNum=$queue and number='$number' and datereg ='$datereg' and timereg='$timereg' "); //executeScalar
