@@ -10,7 +10,7 @@ function create_database(){
     
     // Пересоздание БАЗЫ ДАННЫХ (удаление, а затем создание)
     try{
-        $dbc->exec('drop database if exists larsCustoms');
+        //$dbc->exec('drop database if exists larsCustoms');
         $dbc->exec('create database larsCustoms');
         $dbc->exec('use larsCustoms');
     }catch(PDOException $err){
